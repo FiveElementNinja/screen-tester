@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>Gray</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .wrapper {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+      }
+
+      .left,
+      .right {
+        flex: 0 0 50%;
+      }
+    </style>
+    <script src="./jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+      let color = 51;
+      let timeoutId = 0;
+
+      function updateColor(color) {
+        $('body').css('background-color', `rgb(${color},${color},${color})`);
+      }
+
+      function darken() {
+        color = color - 1;
+        if (color < 0) {
+          color = 0;
+        }
+        console.log('darken: ', color);
+        updateColor(color);
+      }
+
+      function lighten() {
+        color = color + 1;
+        if (color > 255) {
+          color = 255;
+        }
+        console.log('lighten: ', color);
+        updateColor(color);
+      }
+
+      $(document).ready(function () {
+        updateColor(color);
+
+        $('.left')
+          .on('mousedown touchstart', function () {
+            timeoutId = setInterval(darken, 10);
+          })
+          .on('mouseup touchend', function () {
+            clearInterval(timeoutId);
+          });
+
+        $('.right')
+          .on('mousedown touchstart', function () {
+            timeoutId = setInterval(lighten, 10);
+          })
+          .on('mouseup touchend', function () {
+            clearInterval(timeoutId);
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>
